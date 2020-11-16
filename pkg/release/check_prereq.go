@@ -2,13 +2,14 @@ package CheckPrerequisites
 
 import (
 	"fmt"
-
-	"github.com/blang/semver"
-	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
-	"k8s.io/release/pkg/git"
-	"k8s.io/release/pkg/release"
-	"k8s.io/release/pkg/util"
-	"k8s.io/release/pkg/version"
+	"os"
+	"os/exec"
 )
 
+func CheckPrerequisites() error {
+	docker_version := exec.Command("docker", "-v")
+	docker_version_Err := system.RunOSCommand(docker_version, logger)
+	if docker_version_Err != nil {
+		return errors.Wrapf(docker_version_Err, "Attempting to get docker version")
+	}
+}
